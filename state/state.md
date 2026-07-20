@@ -31,20 +31,37 @@ Bzorp/
 │   │   │   ├── security.py
 │   │   │   └── logger.py
 │   │   ├── database/
+│   │   │   └── session.py
 │   │   ├── api/
+│   │   │   ├── auth.py          # Google OAuth login/callback
+│   │   │   └── gmail.py         # GET /api/gmail/emails
 │   │   ├── services/
+│   │   │   ├── gmail.py         # Gmail API client, fetch_recent_emails
+│   │   │   ├── ai.py            # Gemini summarization
+│   │   │   └── bot.py           # Telegram bot handlers
 │   │   ├── scheduler/
+│   │   │   └── __init__.py
 │   │   └── models/
+│   │       ├── user.py
+│   │       ├── gmail_token.py
+│   │       └── digest_log.py
+│   ├── alembic/
+│   │   └── versions/
 │   ├── .venv/
 │   ├── pyproject.toml
 │   ├── uv.lock
 │   └── .env
 ├── frontend/
 │   ├── src/
+│   │   ├── App.tsx
+│   │   ├── App.css
+│   │   ├── index.css
+│   │   └── main.tsx
 │   ├── package.json
 │   └── vite.config.ts
 ├── state/
-│   └── state.md
+│   ├── state.md
+│   └── progress.md
 └── README.md
 ```
 
@@ -72,6 +89,16 @@ npm run dev
 | 2    | Backend scaffold (FastAPI + deps) | ✅ Done | 2026-07-20 |
 | 3    | Frontend scaffold (Vite + React + TS) | ✅ Done | 2026-07-20 |
 | 4    | Core module (config, security, logger) | ✅ Done | 2026-07-20 |
+| 5    | Google Material Design auth UI | ✅ Done | 2026-07-20 |
+| 5    | Database models + Alembic + TiDB connection | ✅ Done | 2026-07-20 |
+| 6    | Google OAuth flow (PKCE, token storage) | ✅ Done | 2026-07-20 |
+| 7    | Gmail API — fetch last 24h emails | ✅ Done | 2026-07-20 |
+| 8    | Gemini AI summarization service | ✅ Done | 2026-07-20 |
+| 9    | Frontend — OAuth connect UI | ✅ Done | 2026-07-20 |
+| 10   | Frontend — post-connect email dashboard | ✅ Done | 2026-07-20 |
+| 11   | Telegram bot — /start, /summary | 🔄 In Progress | 2026-07-20 |
+| 12   | Scheduler — daily digest | ⬜ Pending | — |
+| 13   | React frontend full dashboard | ⬜ Pending | — |
 
 ## Decisions Log
 
@@ -82,6 +109,7 @@ npm run dev
 | 2026-07-20 | FastAPI + Uvicorn for backend | ASGI, async-native, production-ready |
 | 2026-07-20 | React + Vite + TypeScript for frontend | Modern, fast dev experience |
 | 2026-07-20 | core/ module for config, security, logger | Single source of truth, avoids scattering |
+| 2026-07-20 | Google Material Design styling for auth UI | Clean, familiar UX; follows Google OAuth brand guidelines |
 
 ## Installation Log
 
@@ -95,3 +123,14 @@ npm run dev
 | #  | Feature | Status | Date |
 |----|---------|--------|------|
 | 1  | Core module (config, security, logger) | ✅ Done | 2026-07-20 |
+| 2  | Google Material Design auth form & button | ✅ Done | 2026-07-20 |
+| 2  | Database models + Alembic | ✅ Done | 2026-07-20 |
+| 3  | Google OAuth with PKCE | ✅ Done | 2026-07-20 |
+| 4  | Gmail API — fetch_recent_emails | ✅ Done | 2026-07-20 |
+| 5  | CORS middleware for frontend | ✅ Done | 2026-07-20 |
+| 6  | Gemini AI — summarize_emails | ✅ Done | 2026-07-20 |
+| 7  | Frontend — Gmail connect button | ✅ Done | 2026-07-20 |
+| 8  | Frontend — email dashboard after connect | ✅ Done | 2026-07-20 |
+| 9  | Telegram bot — /start, /summary | 🔄 In Progress | 2026-07-20 |
+| 10 | Scheduler — daily digest | ⬜ Pending | — |
+| 11 | React frontend full dashboard | ⬜ Pending | — |

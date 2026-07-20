@@ -106,7 +106,7 @@ async def google_callback(code: str = Query(...), state: str = Query(...), db: S
         db.add(token)
         db.commit()
 
-        return RedirectResponse(f"{FRONTEND_URL}?status=connected&email={email}")
+        return RedirectResponse(f"{FRONTEND_URL}?status=connected&email={email}&telegram_id={telegram_id}")
     except Exception:
         return RedirectResponse(f"{FRONTEND_URL}?status=error")
 
