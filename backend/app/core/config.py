@@ -13,6 +13,10 @@ class Settings(BaseSettings):
     gemini_api_key: str = ""
     secret_key: str = ""
 
+    frontend_url: str = "http://localhost:5173"
+    backend_url: str = "http://localhost:8000"
+    scheduler_time: str = "08:00"
+
     model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
 
 

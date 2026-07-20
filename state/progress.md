@@ -14,9 +14,14 @@
 - Frontend — basic Gmail connect UI in `App.tsx`
 - Frontend — post-connect email dashboard (fetches & displays last 24h emails)
 
-## 🔄 In Progress
+## ✅ Done
 
-- Telegram bot (`/start`, `/summary`)
+- Telegram bot — `/start` sends welcome + connect link, `/summary` fetches emails → Gemini → Telegram
+
+## ✅ Done
+
+- Scheduler — daily digest via APScheduler (sends to all connected users at configurable time)
+- URLs now configurable via `FRONTEND_URL` and `BACKEND_URL` env vars
 
 ## ⬜ Remaining
 

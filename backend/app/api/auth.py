@@ -51,7 +51,7 @@ def get_flow(redirect_uri: str | None = None) -> Flow:
 
 @router.get("/login")
 async def google_login(telegram_id: str = Query(...)):
-    redirect_uri = "http://localhost:8000/api/auth/google/callback"
+    redirect_uri = f"{settings.backend_url}/api/auth/google/callback"
     flow = get_flow(redirect_uri)
 
     code_verifier = _generate_code_verifier()
@@ -70,14 +70,12 @@ async def google_login(telegram_id: str = Query(...)):
 
 @router.get("/callback")
 async def google_callback(code: str = Query(...), state: str = Query(...), db: Session = Depends(get_db)):
-    FRONTEND_URL = "http://localhost:5173"
-
     try:
         parts = state.split(":", 1)
         telegram_id = parts[0]
         code_verifier = parts[1] if len(parts) > 1 else ""
 
-        redirect_uri = "http://localhost:8000/api/auth/google/callback"
+        redirect_uri = f"{settings.backend_url}/api/auth/google/callback"
         flow = get_flow(redirect_uri)
         flow.code_verifier = code_verifier
         flow.fetch_token(code=code)
@@ -106,9 +104,9 @@ async def google_callback(code: str = Query(...), state: str = Query(...), db: S
         db.add(token)
         db.commit()
 
-        return RedirectResponse(f"{FRONTEND_URL}?status=connected&email={email}&telegram_id={telegram_id}")
+        return RedirectResponse(f"{settings.frontend_url}?status=connected&email={email}&telegram_id={telegram_id}")
     except Exception:
-        return RedirectResponse(f"{FRONTEND_URL}?status=error")
+        return RedirectResponse(f"{settings.frontend_url}?status=error")
 
 
 def _extract_email(id_token: str | None) -> str:

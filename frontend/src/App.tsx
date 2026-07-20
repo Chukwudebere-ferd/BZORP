@@ -17,12 +17,45 @@ const GoogleLogo = () => (
   </svg>
 )
 
+const AVATAR_COLORS = ['#4f46e5', '#7c3aed', '#db2777', '#dc2626', '#ea580c', '#d97706', '#65a30d', '#059669', '#0284c7', '#6366f1']
+
+function getInitials(name: string): string {
+  const parts = name.split(' ')
+  if (parts.length >= 2) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+  return name.slice(0, 2).toUpperCase()
+}
+
+function getAvatarColor(name: string): string {
+  let hash = 0
+  for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash)
+  return AVATAR_COLORS[Math.abs(hash) % AVATAR_COLORS.length]
+}
+
 function getStatus(): { connected: boolean; email: string; telegramId: string } {
   const params = new URLSearchParams(window.location.search)
   const status = params.get('status')
   const email = params.get('email') || ''
   const telegramId = params.get('telegram_id') || ''
   return { connected: status === 'connected', email, telegramId }
+}
+
+function timeAgo(dateStr: string): string {
+  const d = new Date(dateStr)
+  if (isNaN(d.getTime())) return ''
+  const diff = Date.now() - d.getTime()
+  const mins = Math.floor(diff / 60000)
+  if (mins < 60) return `${mins}m ago`
+  const hrs = Math.floor(mins / 60)
+  if (hrs < 24) return `${hrs}h ago`
+  const days = Math.floor(hrs / 24)
+  if (days < 7) return `${days}d ago`
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+}
+
+function formatEmailAddress(raw: string): string {
+  const match = raw.match(/^(.*?)(?:\s*<(.+?)>)?$/)
+  if (match?.[2]) return match[2]
+  return raw
 }
 
 function App() {
@@ -32,6 +65,7 @@ function App() {
   const [emails, setEmails] = useState<Email[]>([])
   const [loadingEmails, setLoadingEmails] = useState(false)
   const [emailCount, setEmailCount] = useState(0)
+  const [selectedEmail, setSelectedEmail] = useState<Email | null>(null)
 
   const params = new URLSearchParams(window.location.search)
   const code = params.get('code')
@@ -89,37 +123,93 @@ function App() {
   if (connected) {
     return (
       <div className="dashboard">
-        <div className="dashboard-header">
-          <h1>Bzorp</h1>
-          <div className="connected-badge">
-            <span className="dot" />
-            {connectedEmail}
+        <header className="dash-header">
+          <div className="dash-header-left">
+            <div className="dash-logo">Bzorp</div>
+            <div className="dash-separator" />
+            <div className="dash-subtitle">Email Summary</div>
           </div>
-        </div>
-
-        <div className="dashboard-card">
-          <h2>Recent Emails</h2>
-          <p className="dashboard-subtitle">Last 24 hours &middot; {emailCount} emails</p>
-
-          {loadingEmails ? (
-            <div className="connecting-message">
-              <div className="spinner" />
-              <p>Loading emails…</p>
+          <div className="dash-header-right">
+            <div className="connected-badge">
+              <span className="dot" />
+              {connectedEmail}
             </div>
-          ) : emails.length === 0 ? (
-            <p className="empty-state">No emails in the last 24 hours.</p>
-          ) : (
-            <div className="email-list">
-              {emails.map((e) => (
-                <div key={e.id} className="email-item">
-                  <div className="email-from">{e.from}</div>
-                  <div className="email-subject">{e.subject}</div>
-                  <div className="email-date">{e.date}</div>
+          </div>
+        </header>
+
+        <main className="dash-main">
+          {selectedEmail ? (
+            <div className="email-detail">
+              <button className="back-btn" onClick={() => setSelectedEmail(null)}>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M12.5 15l-5-5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                Back to inbox
+              </button>
+
+              <div className="detail-header">
+                <div className="detail-avatar" style={{ background: getAvatarColor(selectedEmail.from), color: '#fff' }}>
+                  {getInitials(selectedEmail.from)}
                 </div>
-              ))}
+                <div className="detail-header-info">
+                  <h2 className="detail-subject">{selectedEmail.subject}</h2>
+                  <p className="detail-from">{formatEmailAddress(selectedEmail.from)}</p>
+                  <p className="detail-date">{new Date(selectedEmail.date).toLocaleString('en-US', { weekday: 'short', month: 'long', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
+                </div>
+              </div>
+
+              <div className="detail-body">
+                <p className="detail-placeholder">Email content preview not available yet. Full message body fetching coming soon.</p>
+              </div>
             </div>
+          ) : (
+            <>
+              <div className="inbox-header">
+                <h2 className="inbox-title">Inbox</h2>
+                <span className="inbox-count">{emailCount} emails</span>
+              </div>
+
+              {loadingEmails ? (
+                <div className="loading-state">
+                  <div className="spinner" />
+                  <p>Loading emails…</p>
+                </div>
+              ) : emails.length === 0 ? (
+                <div className="empty-state">
+                  <div className="empty-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                      <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10z" fill="currentColor" opacity="0.4"/>
+                    </svg>
+                  </div>
+                  <p className="empty-title">No emails yet</p>
+                  <p className="empty-desc">No emails in the last 24 hours.</p>
+                </div>
+              ) : (
+                <div className="email-list">
+                  {emails.map((e) => (
+                    <button
+                      key={e.id}
+                      className={`email-item${selectedEmail?.id === e.id ? ' selected' : ''}`}
+                      onClick={() => setSelectedEmail(e)}
+                    >
+                      <div className="email-avatar" style={{ background: getAvatarColor(e.from), color: '#fff' }}>
+                        {getInitials(e.from)}
+                      </div>
+                      <div className="email-content">
+                        <div className="email-top">
+                          <span className="email-sender">{formatEmailAddress(e.from)}</span>
+                          <span className="email-time">{timeAgo(e.date)}</span>
+                        </div>
+                        <div className="email-subject">{e.subject}</div>
+                        <div className="email-preview">{e.from}</div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </>
           )}
-        </div>
+        </main>
       </div>
     )
   }

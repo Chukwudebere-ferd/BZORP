@@ -90,14 +90,15 @@ npm run dev
 | 3    | Frontend scaffold (Vite + React + TS) | ✅ Done | 2026-07-20 |
 | 4    | Core module (config, security, logger) | ✅ Done | 2026-07-20 |
 | 5    | Google Material Design auth UI | ✅ Done | 2026-07-20 |
+| 6    | Dashboard redesign (Kretya-style email list + detail view) | ✅ Done | 2026-07-20 |
 | 5    | Database models + Alembic + TiDB connection | ✅ Done | 2026-07-20 |
 | 6    | Google OAuth flow (PKCE, token storage) | ✅ Done | 2026-07-20 |
 | 7    | Gmail API — fetch last 24h emails | ✅ Done | 2026-07-20 |
 | 8    | Gemini AI summarization service | ✅ Done | 2026-07-20 |
 | 9    | Frontend — OAuth connect UI | ✅ Done | 2026-07-20 |
 | 10   | Frontend — post-connect email dashboard | ✅ Done | 2026-07-20 |
-| 11   | Telegram bot — /start, /summary | 🔄 In Progress | 2026-07-20 |
-| 12   | Scheduler — daily digest | ⬜ Pending | — |
+| 11   | Telegram bot — /start, /summary | ✅ Done | 2026-07-20 |
+| 12   | Scheduler — daily digest | ✅ Done | 2026-07-20 |
 | 13   | React frontend full dashboard | ⬜ Pending | — |
 
 ## Decisions Log
@@ -110,6 +111,7 @@ npm run dev
 | 2026-07-20 | React + Vite + TypeScript for frontend | Modern, fast dev experience |
 | 2026-07-20 | core/ module for config, security, logger | Single source of truth, avoids scattering |
 | 2026-07-20 | Google Material Design styling for auth UI | Clean, familiar UX; follows Google OAuth brand guidelines |
+| 2026-07-20 | Dashboard redesign — Kretya/Asal Design aesthetic | Modern inbox layout with avatar initials, split-panel email list/detail view |
 
 ## Installation Log
 
@@ -124,6 +126,7 @@ npm run dev
 |----|---------|--------|------|
 | 1  | Core module (config, security, logger) | ✅ Done | 2026-07-20 |
 | 2  | Google Material Design auth form & button | ✅ Done | 2026-07-20 |
+| 3  | Dashboard redesign — email list + detail view | ✅ Done | 2026-07-20 |
 | 2  | Database models + Alembic | ✅ Done | 2026-07-20 |
 | 3  | Google OAuth with PKCE | ✅ Done | 2026-07-20 |
 | 4  | Gmail API — fetch_recent_emails | ✅ Done | 2026-07-20 |
