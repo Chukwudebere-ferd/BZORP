@@ -26,6 +26,11 @@ Bzorp/
 ├── backend/
 │   ├── app/
 │   │   ├── main.py
+│   │   ├── core/
+│   │   │   ├── config.py
+│   │   │   ├── security.py
+│   │   │   └── logger.py
+│   │   ├── database/
 │   │   ├── api/
 │   │   ├── services/
 │   │   ├── scheduler/
@@ -66,6 +71,7 @@ npm run dev
 | 1    | Project scaffold & state tracking | ✅ Done | 2026-07-20 |
 | 2    | Backend scaffold (FastAPI + deps) | ✅ Done | 2026-07-20 |
 | 3    | Frontend scaffold (Vite + React + TS) | ✅ Done | 2026-07-20 |
+| 4    | Core module (config, security, logger) | ✅ Done | 2026-07-20 |
 
 ## Decisions Log
 
@@ -75,6 +81,7 @@ npm run dev
 | 2026-07-20 | Deploy on Pxxl | Company standard |
 | 2026-07-20 | FastAPI + Uvicorn for backend | ASGI, async-native, production-ready |
 | 2026-07-20 | React + Vite + TypeScript for frontend | Modern, fast dev experience |
+| 2026-07-20 | core/ module for config, security, logger | Single source of truth, avoids scattering |
 
 ## Installation Log
 
@@ -87,4 +94,4 @@ npm run dev
 
 | #  | Feature | Status | Date |
 |----|---------|--------|------|
-| —  | —       | —      | —    |
+| 1  | Core module (config, security, logger) | ✅ Done | 2026-07-20 |
