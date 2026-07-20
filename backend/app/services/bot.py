@@ -65,16 +65,19 @@ async def summary(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def start_bot(app):
-    bot_app = Application.builder().token(settings.telegram_bot_token).build()
-    bot_app.add_handler(CommandHandler("start", start))
-    bot_app.add_handler(CommandHandler("summary", summary))
+    try:
+        bot_app = Application.builder().token(settings.telegram_bot_token).build()
+        bot_app.add_handler(CommandHandler("start", start))
+        bot_app.add_handler(CommandHandler("summary", summary))
 
-    await bot_app.initialize()
-    await bot_app.start()
-    await bot_app.updater.start_polling()
+        await bot_app.initialize()
+        await bot_app.start()
+        await bot_app.updater.start_polling()
 
-    app.state.bot_app = bot_app
-    logger.info("Telegram bot started")
+        app.state.bot_app = bot_app
+        logger.info("Telegram bot started")
+    except Exception:
+        logger.exception("Failed to start Telegram bot — continuing without it")
 
 
 async def stop_bot(app):
