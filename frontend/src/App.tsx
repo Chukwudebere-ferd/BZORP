@@ -186,7 +186,7 @@ function App() {
                 </div>
               ) : (
                 <div className="email-list">
-                  {emails.map((e) => (
+                  {(emails as Email[]).map((e) => (
                     <button
                       key={e.id}
                       className={`email-item${selectedEmail?.id === e.id ? ' selected' : ''}`}
