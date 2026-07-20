@@ -121,6 +121,7 @@ function App() {
   }
 
   if (connected) {
+    const selectedId = selectedEmail?.id ?? null
     return (
       <div className="dashboard">
         <header className="dash-header">
@@ -189,7 +190,7 @@ function App() {
                   {(emails as Email[]).map((e) => (
                     <button
                       key={e.id}
-                      className={`email-item${selectedEmail?.id === e.id ? ' selected' : ''}`}
+                      className={`email-item${selectedId === e.id ? ' selected' : ''}`}
                       onClick={() => setSelectedEmail(e)}
                     >
                       <div className="email-avatar" style={{ background: getAvatarColor(e.from), color: '#fff' }}>
