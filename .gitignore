@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+.uv/
+
+# Environment
+.env
+
+# Project-specific
+skills.md
+.modules
+
+# OS
+.DS_Store
+Thumbs.db
