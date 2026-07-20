@@ -29,7 +29,7 @@ Today's emails ({len(emails)} total):
 Write a friendly digest in plain text. Start with a summary line like "You received X emails in the last 24 hours." Then list the categories with bullet points. End with a one-line quick takeaway."""
 
     response = client.models.generate_content(
-        model="gemini-2.0-flash",
+        model="gemini-2.5-flash",
         contents=prompt,
     )
 
@@ -69,7 +69,7 @@ Emails:
 {chr(10).join(lines)}"""
 
     response = client.models.generate_content(
-        model="gemini-2.0-flash",
+        model="gemini-2.5-flash",
         contents=prompt,
     )
 
