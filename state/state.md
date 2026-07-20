@@ -99,7 +99,8 @@ npm run dev
 | 10   | Frontend — post-connect email dashboard | ✅ Done | 2026-07-20 |
 | 11   | Telegram bot — /start, /summary | ✅ Done | 2026-07-20 |
 | 12   | Scheduler — daily digest | ✅ Done | 2026-07-20 |
-| 13   | React frontend full dashboard | ⬜ Pending | — |
+| 13   | React frontend full dashboard | ✅ Done | 2026-07-20 |
+| 14   | Deploy config — Vercel frontend | ✅ Done | 2026-07-20 |
 
 ## Decisions Log
 

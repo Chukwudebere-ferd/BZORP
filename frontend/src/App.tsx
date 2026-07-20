@@ -17,6 +17,8 @@ const GoogleLogo = () => (
   </svg>
 )
 
+const API_BASE = import.meta.env.VITE_API_URL || ''
+
 const AVATAR_COLORS = ['#4f46e5', '#7c3aed', '#db2777', '#dc2626', '#ea580c', '#d97706', '#65a30d', '#059669', '#0284c7', '#6366f1']
 
 function getInitials(name: string): string {
@@ -76,7 +78,7 @@ function App() {
   useEffect(() => {
     if (connected && connectedTid) {
       setLoadingEmails(true)
-      fetch(`/api/gmail/emails?telegram_id=${encodeURIComponent(connectedTid)}`)
+      fetch(`${API_BASE}/api/gmail/emails?telegram_id=${encodeURIComponent(connectedTid)}`)
         .then((r) => r.json())
         .then((data) => {
           setEmails(data.emails || [])
@@ -95,7 +97,7 @@ function App() {
     }
     setConnecting(true)
     try {
-      const res = await fetch(`/api/auth/google/login?telegram_id=${encodeURIComponent(telegramId.trim())}`)
+      const res = await fetch(`${API_BASE}/api/auth/google/login?telegram_id=${encodeURIComponent(telegramId.trim())}`)
       const data = await res.json()
       if (data.auth_url) {
         window.location.href = data.auth_url
